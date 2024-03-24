@@ -1,50 +1,29 @@
 #include <stdio.h>
-
-unsigned long long factorial(int n)
+int factorial(int n)
 {
     if (n == 0 || n == 1)
+    {
         return 1;
+    }
     else
+    {
         return n * factorial(n - 1);
+    }
 }
 
 int main()
-    {
-    FILE *inputFile, *outputFile;
+{
     int num;
-    unsigned long long fact = 1;
-
-    inputFile = fopen("factorial.txt", "r");
-    if (inputFile == NULL) {
-        printf("Error opening factorial file.\n");
-        return 1;
-    }
-
-
-    outputFile = fopen("factorialoutput.txt", "w");
-    if (outputFile == NULL) {
-        printf("Error opening factorial file.\n");
-        fclose(inputFile);
-        return 1;
-    }
-
-
-    while (fscanf(inputFile, "%d", &num) != EOF)
+    printf("Enter a number to find its factorial: ");
+    scanf("%d", &num);
+    int result = factorial(num);
+    FILE *outputFile = fopen("factorial_output.txt", "w");
+    if (outputFile == NULL)
     {
-        if (num < 0)
-            fprintf(outputFile, "Factorial is not defined for negative numbers.\n");
-        else {
-            fact = factorial(num);
-            fprintf(outputFile, "Factorial of %d = %llu\n", num, fact);
-        }
+        printf("Error: Unable to open factorial_output.txt for writing.\n");
+        return 1;
     }
-
-
-
-
-    fclose(inputFile);
+    fprintf(outputFile, "Factorial of %d is %d.\n", num, result);
     fclose(outputFile);
-
-
     return 0;
 }
